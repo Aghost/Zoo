@@ -15,6 +15,6 @@ namespace Zoo
             AnimalTypes.Add(typeof(Lion));
             AnimalTypes.Add(typeof(Tiger));
             AnimalTypes.Add(typeof(Elephant));
-        }
+        }//Test
     }
 }
