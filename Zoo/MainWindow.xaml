@@ -1,0 +1,133 @@
+﻿<Window x:Class="Zoo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Zoo"
+        mc:Ignorable="d"
+        Width="800"
+        Height="450"
+        WindowStartupLocation="CenterScreen"
+        Title="The Hungry Animals">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.75*" />
+            <ColumnDefinition Width="0.25*" />
+        </Grid.ColumnDefinitions>
+
+        <ListView
+            Grid.Column="0"
+            ItemsSource="{Binding Animals,Mode=OneWay}"
+            DisplayMemberPath="DisplayName" />
+
+        <Grid
+            Grid.Column="1">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Label
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="5"
+                Content="Animal" />
+
+            <ComboBox
+                Name="cbAddAnimalType"
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="5"
+                VerticalAlignment="Center"
+                ItemsSource="{Binding AnimalTypes,Mode=OneWay}"
+                DisplayMemberPath="Name"
+                SelectedIndex="0" />
+
+            <Label
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="5"
+                Content="Name" />
+
+            <TextBox
+                Name="tbAnimalName"
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="5"
+                VerticalContentAlignment="Center" />
+
+            <Button
+                Grid.Row="2"
+                Grid.ColumnSpan="2"
+                Height="32"
+                Margin="5"
+                Content="Add animal"
+                Click="AddAnimal_Click" />
+
+            <ComboBox
+                Name="cbFeedAnimalType"
+                Grid.Row="3"
+                Grid.ColumnSpan="2"
+                Margin="5 25 5 0"
+                ItemsSource="{Binding AnimalTypes,Mode=OneWay}"
+                DisplayMemberPath="Name"
+                SelectedIndex="0" />
+
+            <Button
+                Grid.Row="4"
+                Grid.ColumnSpan="2"
+                Height="32"
+                Margin="5 5 5 0"
+                Content="Feed selected animals"
+                Click="FeedSelectedAnimals_Click" />
+
+            <Button
+                Grid.Row="5"
+                Grid.ColumnSpan="2"
+                Height="32"
+                Margin="5 0 5 5"
+                Content="Feed all animals"
+                Click="FeedAllAnimals_Click" />
+
+            <Button
+                Grid.Row="6"
+                Grid.ColumnSpan="2"
+                Height="32"
+                Margin="5 25 5 5"
+                Content="Use energy"
+                Click="UseEnergy_Click" />
+
+            <Label
+                Name="lbl_DisplayTimer"
+                Grid.Row="7"
+                Grid.ColumnSpan="2"
+                Margin="5 5 5 5"
+                Content="0" />
+
+            <Button
+                Name="btn_StartStop"
+                Grid.Row="8"
+                Grid.ColumnSpan="2"
+                Height="32"
+                Margin="5 30 5 5"
+                Content="Start Timer"
+                Click="StartStopTimer_Click" />
+
+        </Grid>
+
+    </Grid>
+
+</Window>
