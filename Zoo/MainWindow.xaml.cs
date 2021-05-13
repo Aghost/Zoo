@@ -102,8 +102,8 @@ namespace Zoo
                     {
                         carnivore.Eat(prey);
                         viewModel.Animals.Remove(prey);
-                        carnivore = null;
                     }
+                    carnivore = null;
 
                     lvAnimals.BorderBrush = null;
                     lvAnimals.BorderThickness = new Thickness(0);
