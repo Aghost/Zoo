@@ -47,6 +47,28 @@ namespace ZooTests
         }
 
         [Fact]
+        public void CarnivoresHunt()
+        {
+            Tiger tiger = new Tiger();
+            Elephant elephant = new Elephant();
+            Monkey monkey = new Monkey();
+
+            // Diner.
+            tiger.Eat(elephant); // Tiger is very hungry.
+            Assert.Equal(200, tiger.Energy);
+            Assert.Equal(0, elephant.Energy);
+
+            // Desert.
+            tiger.Eat(monkey); // And monkeys are delicious.
+            Assert.Equal(260, tiger.Energy);
+            Assert.Equal(0, monkey.Energy);
+
+            // Cannibalism is not allowed but carnivores can eat other carnivores.
+            Assert.Throws<InvalidOperationException>(() => tiger.Eat(new Tiger()));
+            tiger.Eat(new Lion());
+        }
+
+        [Fact]
         public void UseEnergy()
         {
             Animal animal;

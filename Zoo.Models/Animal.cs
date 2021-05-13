@@ -38,7 +38,7 @@ namespace Zoo.Models
         public abstract void UseEnergy();
 
         protected void Eat(int energy) {
-            Debug.WriteLine($"{Name} the {GetType().ToString().Split('.')[2]} ate food, gained {energy} energy");
+            Debug.WriteLine($"{Name} the {GetType().Name} ate food, gained {energy} energy");
             Energy += energy;
         }
 

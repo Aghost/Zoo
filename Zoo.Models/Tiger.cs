@@ -1,6 +1,6 @@
 ﻿namespace Zoo.Models
 {
-    public class Tiger : Animal
+    public class Tiger : Carnivore
     {
         public override void Eat()
         {

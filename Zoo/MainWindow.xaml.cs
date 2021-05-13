@@ -2,6 +2,8 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
+using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Threading;
 using Zoo.Models;
 
@@ -13,6 +15,7 @@ namespace Zoo
     public partial class MainWindow : Window
     {
         private MainViewModel viewModel;
+        private Carnivore carnivore;
 
         private DispatcherTimer timer;
         private int elapsedTime;
@@ -64,6 +67,52 @@ namespace Zoo
         {
             foreach (Animal animal in viewModel.Animals)
                 animal.Eat();
+        }
+
+        private void EatOtherAnimal_Click(object sender, RoutedEventArgs e)
+        {
+            if (lvAnimals.SelectedItem is Carnivore)
+            {
+                if (lvAnimals.Items.Count > 1)
+                {
+                    carnivore = (Carnivore)lvAnimals.SelectedItem;
+                    lvAnimals.BorderBrush = Brushes.Red;
+                    lvAnimals.BorderThickness = new Thickness(4);
+                }
+                else
+                {
+                    MessageBox.Show("No other animals available");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a carnivore");
+            }
+        }
+
+        private void lvAnimals_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (carnivore != null && lvAnimals.SelectedItem != null)
+            {
+                Animal prey = (Animal)lvAnimals.SelectedItem;
+                try
+                {
+                    // This allows for cancellation by selecting the same animal.
+                    if (prey != carnivore)
+                    {
+                        carnivore.Eat(prey);
+                        viewModel.Animals.Remove(prey);
+                        carnivore = null;
+                    }
+
+                    lvAnimals.BorderBrush = null;
+                    lvAnimals.BorderThickness = new Thickness(0);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, Title, MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
 
         private void UseEnergy_Click(object sender, RoutedEventArgs e)
