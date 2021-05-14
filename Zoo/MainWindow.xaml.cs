@@ -52,6 +52,7 @@ namespace Zoo
 
             Animal animal = (Animal)Activator.CreateInstance((Type)cbAddAnimalType.SelectedItem);
             animal.Name = tbAnimalName.Text;
+            animal.Died += Animal_Died;
             viewModel.Animals.Add(animal);
         }
 
@@ -99,10 +100,7 @@ namespace Zoo
                 {
                     // This allows for cancellation by selecting the same animal.
                     if (prey != carnivore)
-                    {
                         carnivore.Eat(prey);
-                        viewModel.Animals.Remove(prey);
-                    }
                     carnivore = null;
 
                     lvAnimals.BorderBrush = null;
@@ -137,16 +135,19 @@ namespace Zoo
 
         private void UseEnergy()
         {
-            foreach (Animal animal in viewModel.Animals.Reverse())
-            {
+            // The "Died" event is apparently raised before the loop completes
+            // so we need a copy because lists cannot be modified while looping through it.
+            Animal[] animals = new Animal[viewModel.Animals.Count];
+            viewModel.Animals.CopyTo(animals, 0);
+            foreach (Animal animal in animals)
                 animal.UseEnergy();
+        }
 
-                if (animal.Energy == 0)
-                {
-                    Debug.WriteLine(animal.GetType().Name + " " + animal.Name + " died :(");
-                    viewModel.Animals.Remove(animal);
-                }
-            }
+        private void Animal_Died(object sender, EventArgs e)
+        {
+            Animal animal = (Animal)sender;
+            Debug.WriteLine(animal.GetType().Name + " " + animal.Name + " died :(");
+            viewModel.Animals.Remove(animal);
         }
     }
 }

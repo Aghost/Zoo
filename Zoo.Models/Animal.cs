@@ -1,11 +1,16 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 
 namespace Zoo.Models
 {
+    public delegate void DeathEventHandler(object sender, EventArgs e);
+
     public abstract class Animal : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        public event DeathEventHandler Died;
+
         private int energy;
 
         public string DisplayName {
@@ -30,6 +35,9 @@ namespace Zoo.Models
                     // Waarom MOET PropertyChanged in de setter van een property worden aangeroepen?
                     // Als je dezelfde RaisePropertyChanged() vanuit een andere functie aanroept werkt het niet?
                     RaisePropertyChanged();
+
+                    if (energy == 0)
+                        RaiseDied(new EventArgs());
                 }
             }
         }
@@ -48,6 +56,11 @@ namespace Zoo.Models
 
         protected void RaisePropertyChanged() {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DisplayName)));
+        }
+
+        protected void RaiseDied(EventArgs e)
+        {
+            Died?.Invoke(this, e);
         }
     }
 }
